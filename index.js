@@ -1,9 +1,12 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
-const router = require("./routes/router.js");
 const { PORT = 3010 } = process.env;
 
 const app = express();
+mongoose.connect("mongodb://localhost:27017/blizko");
+
+const booksRouter = require("./routes/booksRouter");
 
 const whitelist = [
   "http://localhost:3000",
@@ -19,8 +22,10 @@ const corsOptions = {
   },
 };
 
+
+
 app.use(cors(corsOptions)); 
-app.use('/', router);
+app.use('/books', booksRouter);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
